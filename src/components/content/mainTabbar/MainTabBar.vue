@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-06 17:57:10
+ * @LastEditTime: 2020-05-09 19:55:12
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \supermall\src\components\content\mainTabbar\MainTabBar.vue
+ -->
 <template>
     <tab-bar>
       <tab-bar-item path="/home" >
@@ -36,6 +44,6 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 </style>

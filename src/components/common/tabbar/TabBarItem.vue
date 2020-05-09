@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-06 17:57:10
+ * @LastEditTime: 2020-05-09 19:55:50
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \supermall\src\components\common\tabbar\TabBarItem.vue
+ -->
 <template>
     <div class="tab-bar-item" @click="onClick">
         <div v-if="!isActive"><slot name="item-icon"></slot></div>
@@ -37,7 +45,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .tab-bar-item{
     flex: 1;
     text-align: center;
