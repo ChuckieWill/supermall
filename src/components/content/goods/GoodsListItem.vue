@@ -7,8 +7,8 @@
  * @FilePath: \supermall\src\components\content\goods\GoodsListItem.vue
  -->
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="">
+  <div class="goods-item" @click="onGoodsItem">
+    <img :src="goodsItem.show.img" alt="" @load="loadDone">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -27,7 +27,18 @@
           return {}
         }
       }
-    }
+    },
+    methods: {
+      loadDone(){
+        this.$bus.$emit('imgLoadDone')
+      },
+      onGoodsItem(){
+        this.$router.push({
+          path: '/detail',
+          query: {iid: this.goodsItem.iid}
+        })
+      }
+    },
   }
 </script>
 

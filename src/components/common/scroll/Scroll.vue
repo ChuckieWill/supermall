@@ -35,21 +35,33 @@
       })
 
       //监听滚动位置
-      this.bscroll.on('scroll', (position) => {
-        this.$emit('scroll', position)
-      })
+      if (this.probeType === 2 || this.probeType === 3){
+        this.bscroll.on('scroll', (position) => {
+          this.$emit('scroll', position)
+        })
+      }
 
       //监听上拉加载更多
-      this.bscroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
+      if(this.pullUpLoad){
+        this.bscroll.on('pullingUp', () => {
+          this.$emit('pullingUp')
+        })
+      }
+      
     },
     methods: {
       scrollTo(x, y, time=500){
-        this.bscroll.scrollTo(x, y, time)
+        this.bscroll && this.bscroll.scrollTo(x, y, time)
       },
       finishPullUp(){
-        this.bscroll.finishPullUp()
+        this.bscroll && this.bscroll.finishPullUp()
+      },
+      refresh(){
+        console.log('执行refresh')
+        this.bscroll && this.bscroll.refresh()
+      },
+      getScrollY(){
+        return this.bscroll ? this.bscroll.y : 0
       }
     }
   }
