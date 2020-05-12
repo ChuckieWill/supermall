@@ -10,7 +10,13 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <scroll class="scroll">
+
+    <scroll class="scroll" 
+            ref="scroll" 
+            :probe-type="3" 
+            @scroll="onScroll"
+            :pull-up-load="true"
+            @pullingUp="loadMore">
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
@@ -19,6 +25,8 @@
                   @tabClick="onTabClick"/>
       <goods-list :goods="showGoods"/>
     </scroll>
+
+    <back-top @click.native="onTapClick" v-show="isShowBackTop"/>
   </div>
 </template>
 
@@ -31,6 +39,7 @@
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import Scroll from 'components/common/scroll/Scroll'
+  import BackTop from 'components/content/backTop/BackTop'
 
   import {getHomeMultidata, getHomeGoods} from 'network/home'
 
@@ -43,7 +52,8 @@
       NavBar,
       TabControl,
       GoodsList,
-      Scroll
+      Scroll,
+      BackTop
     },
     data(){
       return{
@@ -54,7 +64,8 @@
           'new': {page: 0, list: []},
           'sell': {page: 0, list: []}
         },
-        currentType: 'pop'
+        currentType: 'pop',
+        isShowBackTop: false
       }
     },
     computed:{
@@ -92,25 +103,44 @@
         })
       },
 
-    /**
-     * 时间监听函数
-     */ 
-     onTabClick(index){
-       switch(index){
-        case 0: 
-          this.currentType = 'pop'
-          break
-        case 1 : 
-          this.currentType = 'new'
-          break
-        case 2 : 
-          this.currentType = 'sell'
-          break
-       }
-     },
+      /**
+       * 事件监听函数
+       */ 
+      onTabClick(index){
+        switch(index){
+          case 0: 
+            this.currentType = 'pop'
+            break
+          case 1 : 
+            this.currentType = 'new'
+            break
+          case 2 : 
+            this.currentType = 'sell'
+            break
+        }
+      },
+
+      onTapClick(){
+        this.$refs.scroll.scrollTo(0, 0)
+      },
+
+      onScroll(position){
+        // console.log(position)
+        this.isShowBackTop = (-position.y) > 1000
+        // const y = -position.y
+        // if(y > 1000){
+        //   this.isShowBackTop = true
+        // }else{
+        //   this.isShowBackTop = false
+        // }
+      },
+
+      loadMore(){
+        this.getHomeGoods(this.currentType)
+        this.$refs.scroll.finishPullUp()
+      }
      
-     
-    }
+    },
   }
 </script>
 
