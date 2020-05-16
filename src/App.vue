@@ -1,14 +1,7 @@
-<!--
- * @Author: your name
- * @Date: 2020-05-06 15:48:38
- * @LastEditTime: 2020-05-09 19:53:28
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \supermall\src\App.vue
- -->
+
 <template>
   <div id="app">
-    <keep-alive><router-view/></keep-alive>
+    <keep-alive exclude="Detail"><router-view/></keep-alive>
     <main-tab-bar/>
   </div>
 </template>
