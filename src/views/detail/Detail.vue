@@ -1,23 +1,33 @@
 <template>
   <div id="detail">
     <detail-nav-bar/>
-    <scroll class="scroll" :probe-type="3">
+
+    <scroll class="scroll" :probe-type="3" ref="scroll">
       <detail-swiper :swipers="swipers"/>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
+      <detail-goods-info :detail-info="detailInfo" @imgLoadDone="imgLoadDone"/>
+      <detail-param-info :param-info="paramInfo"/>
+      <detail-comment-info :comment-info="commentInfo"/>
     </scroll>
   </div>
-
 </template>
 
 <script scoped>
   import Scroll from 'components/common/scroll/Scroll'
+
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
   import DetailBaseInfo from './childComps/DetailBaseInfo'
   import DetailShopInfo from './childComps/DetailShopInfo'
+  import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+  import DetailParamInfo from './childComps/DetailParamInfo'
+  import DetailCommentInfo from './childComps/DetailCommentInfo'
 
-  import {getDetail, Goods, Shop} from 'network/detail.js'
+  import {getDetail, Goods, Shop, GoodsParam} from 'network/detail.js'
+
+  import {debounce} from 'common/utils'
+
   export default {
     name: 'Detail',
     components: {
@@ -25,14 +35,20 @@
       DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
-      DetailShopInfo
+      DetailShopInfo,
+      DetailGoodsInfo,
+      DetailParamInfo,
+      DetailCommentInfo
     },
     data(){
       return {
         iid: null,
         swipers: [],
         goods: {},
-        shop: {}
+        shop: {},
+        detailInfo: {},
+        paramInfo: {},
+        commentInfo: {}
       }
     },
     created(){
@@ -48,18 +64,32 @@
         this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
         //2.3 保存店铺信息
         this.shop = new Shop(data.shopInfo)
+        //2.4 保存商品详情
+        this.detailInfo = data.detailInfo
+        //2.5 保存参数信息
+        this.paramInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule)
+        //2.6 保存评论信息
+        if(data.rate.list){
+          this.commentInfo = data.rate.list[0]
+        }
       })
+    },
+    methods: {
+      //图片加载完成刷新scroll 重新计算高度
+      imgLoadDone(){
+        this.$refs.scroll.refresh()
+      }
     }
   }
 </script>
 
 <style scoped>
-  /* #detail{
+  #detail{
     height: 100vh;
     position: relative;
     z-index: 99;
     background-color: #fff; 
-  } */
+  }
 
   .scroll{
     overflow: hidden;
