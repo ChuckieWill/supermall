@@ -1,30 +1,38 @@
 <template>
   <div id="detail">
     <detail-nav-bar/>
-    <detail-swiper :swipers="swipers"/>
-    <detail-base-info :goods="goods"/>
+    <scroll class="scroll" :probe-type="3">
+      <detail-swiper :swipers="swipers"/>
+      <detail-base-info :goods="goods"/>
+      <detail-shop-info :shop="shop"/>
+    </scroll>
   </div>
 
 </template>
 
 <script scoped>
+  import Scroll from 'components/common/scroll/Scroll'
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
   import DetailBaseInfo from './childComps/DetailBaseInfo'
+  import DetailShopInfo from './childComps/DetailShopInfo'
 
-  import {getDetail, Goods} from 'network/detail.js'
+  import {getDetail, Goods, Shop} from 'network/detail.js'
   export default {
     name: 'Detail',
     components: {
+      Scroll,
       DetailNavBar,
       DetailSwiper,
-      DetailBaseInfo
+      DetailBaseInfo,
+      DetailShopInfo
     },
     data(){
       return {
         iid: null,
         swipers: [],
-        goods: {}
+        goods: {},
+        shop: {}
       }
     },
     created(){
@@ -38,11 +46,28 @@
         this.swipers = data.itemInfo.topImages
         //2.2 保存商品信息
         this.goods = new Goods(data.itemInfo, data.columns, data.shopInfo.services)
+        //2.3 保存店铺信息
+        this.shop = new Shop(data.shopInfo)
       })
     }
   }
 </script>
 
-<style>
+<style scoped>
+  /* #detail{
+    height: 100vh;
+    position: relative;
+    z-index: 99;
+    background-color: #fff; 
+  } */
 
+  .scroll{
+    overflow: hidden;
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    /* bottom: 0; */
+    left: 0;
+    right: 0;
+  }
 </style>
