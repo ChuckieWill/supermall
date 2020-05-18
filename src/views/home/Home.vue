@@ -86,7 +86,7 @@
     mounted(){
       // 监听商品数据图片加载 
       const refresh = debounce(this.$refs.scroll.refresh, 200)
-      this.$bus.$on('imgLoadDone', () => {
+      this.$bus.$on('homeImgLoadDone', () => {
         console.log('图片加载完成')
         refresh()
       })

@@ -1,14 +1,7 @@
-<!--
- * @Author: your name
- * @Date: 2020-05-09 14:46:42
- * @LastEditTime: 2020-05-09 19:55:27
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \supermall\src\components\content\goods\GoodsListItem.vue
- -->
+
 <template>
   <div class="goods-item" @click="onGoodsItem">
-    <img :src="goodsItem.show.img" alt="" @load="loadDone">
+    <img :src="showImage" alt="" @load="loadDone">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -28,9 +21,18 @@
         }
       }
     },
+    computed: {
+      showImage(){
+        return this.goodsItem.image || this.goodsItem.show.img
+      }
+    },
     methods: {
       loadDone(){
-        this.$bus.$emit('imgLoadDone')
+        if(this.$route.path.indexOf('/home')){
+          this.$bus.$emit('homeImgLoadDone')
+        }else if(this.$route.path.indexOf('/detail')){
+          this.$bus.$emit('homeImgLoadDone')
+        }
       },
       onGoodsItem(){
         this.$router.push({

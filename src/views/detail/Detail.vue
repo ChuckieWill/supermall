@@ -9,12 +9,14 @@
       <detail-goods-info :detail-info="detailInfo" @imgLoadDone="imgLoadDone"/>
       <detail-param-info :param-info="paramInfo"/>
       <detail-comment-info :comment-info="commentInfo"/>
+      <goods-list :goods="recommends" class="gooods-list"/>
     </scroll>
   </div>
 </template>
 
 <script scoped>
   import Scroll from 'components/common/scroll/Scroll'
+  import GoodsList from 'components/content/goods/GoodsList'
 
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper'
@@ -24,7 +26,7 @@
   import DetailParamInfo from './childComps/DetailParamInfo'
   import DetailCommentInfo from './childComps/DetailCommentInfo'
 
-  import {getDetail, Goods, Shop, GoodsParam} from 'network/detail.js'
+  import {getDetail, getRecommend, Goods, Shop, GoodsParam} from 'network/detail.js'
 
   import {debounce} from 'common/utils'
 
@@ -32,6 +34,7 @@
     name: 'Detail',
     components: {
       Scroll,
+      GoodsList,
       DetailNavBar,
       DetailSwiper,
       DetailBaseInfo,
@@ -48,15 +51,16 @@
         shop: {},
         detailInfo: {},
         paramInfo: {},
-        commentInfo: {}
+        commentInfo: {},
+        recommends: []
       }
     },
     created(){
       //1 保存请求数据id
       this.iid = this.$route.query.iid
-      //2 发送网络请求
+      //2 发送网络请求 获取商品详情信息
       getDetail(this.iid).then((res) => {
-        console.log(res)
+        // console.log(res)
         const data = res.result
         //2.1 保存轮播图
         this.swipers = data.itemInfo.topImages
@@ -72,6 +76,11 @@
         if(data.rate.list){
           this.commentInfo = data.rate.list[0]
         }
+      })
+      //3 发送网络请求 获取商品推荐信息
+      getRecommend().then((res) => {
+        console.log(res)
+        this.recommends = res.data.list
       })
     },
     methods: {
@@ -99,5 +108,9 @@
     /* bottom: 0; */
     left: 0;
     right: 0;
+  }
+
+  .gooods-list{
+    margin-top: 15px;
   }
 </style>
