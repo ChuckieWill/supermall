@@ -35,7 +35,7 @@
     },
     methods: {
       onLoadImg(){ 
-        if(++this.counter%10 === 0){
+        if(++this.counter%10 === 1){
           this.$emit('imgLoadDone')
         }
       }

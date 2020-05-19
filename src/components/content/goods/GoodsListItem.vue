@@ -27,11 +27,11 @@
       }
     },
     methods: {
-      loadDone(){
-        if(this.$route.path.indexOf('/home')){
+      loadDone(){ 
+        if(this.$route.path.indexOf('/home') >= 0){
           this.$bus.$emit('homeImgLoadDone')
-        }else if(this.$route.path.indexOf('/detail')){
-          this.$bus.$emit('homeImgLoadDone')
+        }else if(this.$route.path.indexOf('/detail') >= 0){
+          this.$bus.$emit('detailImgLoadDone')
         }
       },
       onGoodsItem(){

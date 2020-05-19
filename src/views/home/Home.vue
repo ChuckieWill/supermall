@@ -36,13 +36,14 @@
   import TabControl from 'components/content/tabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import Scroll from 'components/common/scroll/Scroll'
-  import BackTop from 'components/content/backTop/BackTop'
 
   import {getHomeMultidata, getHomeGoods} from 'network/home'
   import {debounce} from 'common/utils'
+  import {backTopMixin} from 'common/mixin'
 
   export default {
     name: 'Home',
+    mixins: [backTopMixin],
     components:{
       HomeSwiper,
       RecommendView,
@@ -50,8 +51,7 @@
       NavBar,
       TabControl,
       GoodsList,
-      Scroll,
-      BackTop
+      Scroll
     },
     data(){
       return{
@@ -63,7 +63,6 @@
           'sell': {page: 0, list: []}
         },
         currentType: 'pop',
-        isShowBackTop: false,
         tabOffstTop: 0,
         isTabFixed: false,
         saveY: 0
@@ -87,7 +86,7 @@
       // 监听商品数据图片加载 
       const refresh = debounce(this.$refs.scroll.refresh, 200)
       this.$bus.$on('homeImgLoadDone', () => {
-        console.log('图片加载完成')
+        // console.log('首页图片加载完成')
         refresh()
       })
     },
@@ -104,7 +103,7 @@
        */
       getHomeMultidata(){
         getHomeMultidata().then((res) => {
-          console.log('home-multidata',res)
+          // console.log('home-multidata',res)
           this.banners = res.data.banner.list
           this.recommends =  res.data.recommend.list
         })
@@ -113,7 +112,7 @@
       getHomeGoods(type){
         const page = this.goods[type].page + 1
         getHomeGoods(type,page).then((res) => {
-          console.log('home-goods',res)
+          // console.log('home-goods',res)
           this.goods[type].list.push(...res.data.list)
           this.goods[type].page += 1
 
@@ -141,13 +140,9 @@
 
       },
 
-      onTapClick(){
-        this.$refs.scroll.scrollTo(0, 0)
-      },
-
       onScroll(position){
         // 1 监听是否显示回到顶部按钮的显示
-        this.isShowBackTop = (-position.y) > 1000
+        this.showBackTop(-position.y)
         // 2 监听是否tab-control是否吸顶
         this.isTabFixed = (-position.y) > this.tabOffstTop
       },
