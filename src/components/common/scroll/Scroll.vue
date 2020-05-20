@@ -57,7 +57,6 @@
         this.bscroll && this.bscroll.finishPullUp()
       },
       refresh(){
-        console.log('执行refresh')
         this.bscroll && this.bscroll.refresh()
       },
       getScrollY(){

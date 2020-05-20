@@ -81,7 +81,7 @@
         this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
         this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
         this.themeTopYs.push(Number.MAX_VALUE)
-        console.log(this.themeTopYs)
+        // console.log(this.themeTopYs)
       }, 300)
     },
     mounted(){
@@ -130,7 +130,7 @@
        */
       //图片加载完成刷新scroll 重新计算高度
       imgLoadDone(){
-        console.log('详情页imgLoadDone')
+        // console.log('详情页imgLoadDone')
         this.$refs.scroll.refresh()
         this.setThemeTopYs()
       },
@@ -163,7 +163,8 @@
         cart.desc = this.goods.desc
         cart.price = this.goods.nowPrice
         //2 将商品添加到购物车
-        this.$store.commit('addCart', cart)
+        // this.$store.commit('addCart', cart)
+        this.$store.dispatch('addCart', cart)
       }
     }
   }
