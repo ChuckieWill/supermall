@@ -1,5 +1,7 @@
 # supermall
 
+## 需要后端接口请联系QQ:1747363320
+
 ## Project setup
 ```
 npm install
