@@ -36,6 +36,8 @@
   import {debounce} from 'common/utils'
   import {backTopMixin} from 'common/mixin'
 
+  import { mapActions }  from 'vuex'
+
   export default {
     name: 'Detail',
     mixins: [backTopMixin],
@@ -93,6 +95,7 @@
       })
     },
     methods: {
+      ...mapActions(['addCart']),
       /**
        * 网络请求函数
        */
@@ -164,7 +167,13 @@
         cart.price = this.goods.nowPrice
         //2 将商品添加到购物车
         // this.$store.commit('addCart', cart)
-        this.$store.dispatch('addCart', cart)
+        // this.$store.dispatch('addCart', cart).then((res) => {
+        //   console.log(res)
+        // })
+        this.addCart(cart).then((res) => {
+          // console.log(this.$toast)
+          this.$toast.show(res, 2000)
+        })
       }
     }
   }
