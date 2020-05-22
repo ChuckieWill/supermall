@@ -70,7 +70,9 @@
     },
     created(){
       //1 保存请求数据id
-      this.iid = this.$route.query.iid
+      // this.iid = this.$route.query.iid
+      console.log(this.$route.params)
+      this.iid = this.$route.params.iid
       //2 发送网络请求 获取商品详情信息
       this.getDetail(this.iid)
       //3 发送网络请求 获取商品推荐信息

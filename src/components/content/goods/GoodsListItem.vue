@@ -36,8 +36,9 @@
       },
       onGoodsItem(){
         this.$router.push({
-          path: '/detail',
-          query: {iid: this.goodsItem.iid}
+          // path: '/detail',
+          // query: {iid: this.goodsItem.iid}
+          path: '/detail/'+ this.goodsItem.iid
         })
       }
     },
