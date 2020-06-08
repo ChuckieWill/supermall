@@ -1,6 +1,14 @@
 # supermall
 
-## 需要后端接口请联系QQ:1747363320
+###  before start
+
+* src/network/request.js/baseURL
+
+```js
+baseURL: '后端接口',
+```
+
+* 需要后端接口请联系QQ:1747363320
 
 ## Project setup
 ```
@@ -19,3 +27,4 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
